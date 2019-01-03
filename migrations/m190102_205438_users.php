@@ -13,10 +13,10 @@ class m190102_205438_users extends Migration
      */
     public function safeUp()
     {
-        $this->$this->createTable(self::USERS_TABLE, [
+        $this->createTable(self::USERS_TABLE, [
             'id' => $this->primaryKey(),
-            'login' => $this->string(255),
-            'password' => $this->string(255),
+            'login' => $this->string(),
+            'password' => $this->string(),
     ]);
        $this->insert(self::USERS_TABLE, [
            'login' => 'admin',
@@ -29,21 +29,26 @@ class m190102_205438_users extends Migration
      */
     public function safeDown()
     {
+        $this->dropTable(self::USERS_TABLE);
 
     }
 
-    /*
-    // Use up()/down() to run migration code without a transaction.
-    public function up()
+/*    public function up()
     {
-
+       $this->createTable(self::USERS_TABLE, [
+            'id' => $this->primaryKey(),
+            'login' => $this->string(255),
+            'password' => $this->string(32),
+        ]);
+        $this->insert(self::USERS_TABLE, [
+            'login' => 'admin',
+            'password' => Yii::$app->security->generatePasswordHash('admin')
+        ]);
     }
 
     public function down()
     {
-        echo "m190102_205438_users cannot be reverted.\n";
+        $this->dropTable(self::SERS_TABLE);
 
-        return false;
-    }
-    */
+    }*/
 }
