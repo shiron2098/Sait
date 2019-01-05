@@ -24,6 +24,8 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
             'password' => 'demo',
             'authKey' => 'test101key',
             'accessToken' => '101-token',
+            'auth_key' => Yii::$app->security->generateRandomString(),
+            'auth_key' => $this->string(32)),
         ],
     ];
 

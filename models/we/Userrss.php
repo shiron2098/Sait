@@ -17,7 +17,7 @@ use yii\behaviors\TimestampBehavior;
  * @property string $auth_key
  * @property string $access_token
  */
-class Users extends \yii\db\ActiveRecord implements IdentityInterface
+class Userrss extends \yii\db\ActiveRecord implements IdentityInterface
 {
     /**
      * @inheritdoc

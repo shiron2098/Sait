@@ -3,7 +3,6 @@ namespace app\controllers;
 
 use app\models\AutForm;
 use app\models\AutreForm;
-use app\models\ContactForm;
 use app\models\CreateForm;
 use app\models\NewForm1;
 use app\models\Users;
@@ -21,11 +20,14 @@ class AutController extends Controller
 
     public function actionIndex()
     {
-       $model=new AutreForm();
-            if($model->load(Yii::$app->request->post())&& $model->login()){
+        $model=new AutreForm();
+        if(Yii::$app->request->post('AutreForm')){
+            $model->attributes = Yii::$app->request->post('AutreForm');
+            if($model->validate()) {
+                Yii::$app->user->login($model->getUser());
                 return $this->redirect('/tablic2/home');
             }
-
+        }
         return $this->render('index',[
             'model'=> $model
         ]);
@@ -36,16 +38,13 @@ class AutController extends Controller
         $model = new AutForm();
         $newlogin = new Users();
         if ($model->load(Yii::$app->request->post())) {
-            $newlogin->setPassword($model->password_hash);
+            $newlogin->setPassword($model['password']);
             $newlogin->login = $model->login;
-            $newlogin->auth_key = Yii::$app->security->generateRandomString(32);
             if ($model->validate()) {
                 if ($newlogin->save()) {
                     return $this->redirect('/aut/index');
                 }
-                else {
-                    print_r($newlogin->errors);
-                }
+
             }
         }
         return $this->render('/aut/Soxdat_new_user', [
@@ -55,9 +54,13 @@ class AutController extends Controller
     public function actionLogin()
     {
         $model=new AutreForm();
-            if($model->load(Yii::$app->request->post())&& $model->login()){
+        if(Yii::$app->request->post('AutreForm')){
+            $model->attributes = Yii::$app->request->post('AutreForm');
+            if($model->validate()){
+                Yii::$app->user->login($model->getUser());
                 return $this->redirect('/tablic2/home');
             }
+        }
         return $this->render('index',[
             'model'=> $model
         ]);
@@ -67,10 +70,5 @@ class AutController extends Controller
         Yii::$app->user->logout();
 
         return $this->redirect('/aut/index');
-    }
-    public function actionContact()
-    {
-
-
     }
 }

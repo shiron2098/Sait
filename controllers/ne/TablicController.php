@@ -3,7 +3,7 @@ namespace app\controllers;
 
 
 use app\controllers\AutController;
-use app\models\Auti;
+use app\models\Users;
 use app\models\Yifraem;
 use Psr\Log\InvalidArgumentException;
 use Yii;
@@ -42,14 +42,14 @@ class TablicController extends AutController
                 print_r($newlogin->errors);
                 exit();
             }
-            $task = Auti::find()->
+            $task = Users::find()->
             where('id=:id', [':id' => $userid])->one()->getYifraems()->all();
             return $this->render('Tab', [
                 'lol' => $task
             ]);
         }
         if ($taska) {
-            $task = Auti::find()->
+            $task = Users::find()->
             where('id=:id', [':id' => $userid])->one()->getYifraems()->all();
 
             if (!$task) {
@@ -76,7 +76,7 @@ class TablicController extends AutController
                     print_r($newlogin->errors);
                     exit();
                 }
-                $task = Auti::find()->
+                $task = Users::find()->
                 where('id=:id', [':id' => $userid])->one()->getYifraems()->all();
                 foreach ($task as $taske) {
                     return $this->render('Tab', [
@@ -85,7 +85,7 @@ class TablicController extends AutController
                 }
 
             } else {
-                $task = Auti::find()->
+                $task = Users::find()->
                 where('id=:id', [':id' => $userid])->one()->getYifraems()->all();
                 $this->render('Tab', [
                     'lol' => $task

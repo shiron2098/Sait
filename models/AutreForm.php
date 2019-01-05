@@ -5,10 +5,13 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 
+
 class AutreForm extends Model
 {
     public $login;
-    public $password;
+    public $password_hash;
+    public $auth_key;
+    public $rememberMe = true;
 
 
     /**
@@ -17,8 +20,9 @@ class AutreForm extends Model
     public function rules()
     {
         return [
-            [['login', 'password'], 'required'],
-            ['password', 'validatePassword'],
+            [['login', 'password_hash'], 'required'],
+            ['rememberMe', 'boolean'],
+            ['password_hash', 'validatePassword'],
         ];
     }
     public function validatePassword($attribute, $params)
@@ -26,23 +30,25 @@ class AutreForm extends Model
         if (!$this->hasErrors())
         {
             $user = $this->getUser();
-
-            if (!$user || !$user->validatePassword($this->password))
+            if (!$user || !$user->validatePassword($this->password_hash))
             {
                 $this->addError($attribute, 'Пароль или пользователь неверный');
             }
+            return true;
+
         }
     }
-/*    public function login()
+   public function login()
     {
         if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser());
+            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
         }
         return false;
-    }*/
+    }
 
     public function getUser()
     {
-        return Auti::FindOne(['login'=>$this->login]);
+        return Users::FindOne(['login'=>$this->login]);
+
     }
 }
