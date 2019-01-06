@@ -21,14 +21,21 @@ class AutController extends Controller
 
     public function actionIndex()
     {
-       $model=new AutreForm();
-            if($model->load(Yii::$app->request->post())&& $model->login()){
+        if (Yii::$app->user->isGuest) {
+            $model = new AutreForm();
+            if ($model->load(Yii::$app->request->post()) && $model->login()) {
                 return $this->redirect('/tablic2/home');
             }
 
-        return $this->render('index',[
-            'model'=> $model
-        ]);
+            return $this->render('index', [
+                'model' => $model
+            ]);
+
+        }
+        else
+        {
+            $this->redirect('/tablic2/home');
+        }
     }
 
     public function actionCreateNewUser()

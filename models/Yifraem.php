@@ -15,30 +15,38 @@ use Yii;
  * @property string $password
  * @property int $userid
  *
- * @property Auti $user
+ * @property Users $user
  */
 class Yifraem extends \yii\db\ActiveRecord
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
+    public static function tableName()
+    {
+        return 'Yifraem';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+
     public function rules()
     {
         return [
-            ['email', 'email'],
-            ['name', 'string'],
-            ['password', 'number'],
-            ['name','unique'],
-            ['email','unique'],
-            [['time', 'date', 'name', 'email', 'password', 'userid'], 'required'],
+            ['email','email'],
+            [['email','name'],'unique'],
+            ['name','string'],
+            [['time'], 'safe'],
             [['userid'], 'integer'],
-            [['time', 'date', 'name', 'email', 'password'], 'string', 'max' => 255],
-            [['userid'], 'exist', 'skipOnError' => true, 'targetClass' => Auti::className(), 'targetAttribute' => ['userid' => 'id']],
+            [['date', 'email'], 'string', 'max' => 32],
+            [['name', 'password'], 'string', 'max' => 60],
+            [['userid'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['userid' => 'id']],
         ];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function attributeLabels()
     {
@@ -58,7 +66,6 @@ class Yifraem extends \yii\db\ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(Auti::className(), ['id' => 'userid']);
+        return $this->hasOne(Users::className(), ['id' => 'userid']);
     }
-
 }

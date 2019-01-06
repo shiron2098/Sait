@@ -27,14 +27,15 @@ class AutreForm extends Model
     }
     public function validatePassword($attribute, $params)
     {
-        if (!$this->hasErrors())
-        {
+        if (!$this->hasErrors()) {
             $user = $this->getUser();
-            if (!$user || !$user->validatePassword($this->password_hash))
-            {
+            if (!$user || !$user->validatePassword($this->password_hash)) {
                 $this->addError($attribute, 'Пароль или пользователь неверный');
             }
-            return true;
+            else
+            {
+                return true;
+            }
 
         }
     }

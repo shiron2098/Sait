@@ -4,7 +4,6 @@
            <?$userid = $_SESSION['id'];?>
             <div class="col-lg-12">
                 <a href="/tablic2/index/" class="btn btn-primary">Create new task</a>
-                <a href="/aut/logout/" class="btn btn-danger">logout</a>
               <table border="1" id="tablic1">
                   <tr>
                       <td>id</td>

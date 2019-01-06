@@ -4,7 +4,9 @@ namespace app\controllers;
 
 use app\controllers\AutController;
 use app\models\Auti;
+use app\models\AutreForm;
 use app\models\NewForm1;
+use app\models\Users;
 use app\models\Yifraem;
 use Psr\Log\InvalidArgumentException;
 use Yii;
@@ -36,7 +38,7 @@ class Tablic2Controller extends AutController
 
                 }
                 else{
-                    $task = Auti::find()->
+                    $task = Users::find()->
                     where('id=:id', [':id' => $userid])->one()->getYifraems()->all();
                     return $this->render('Tab', [
                         'lol' => $task
@@ -49,20 +51,25 @@ class Tablic2Controller extends AutController
         ]);
 
     }
-    public function actionHome(){
-        $userid=$_SESSION['__id'];
-        $model = Yifraem::find()->where('userid=:userid',[':userid' => $userid])->all();
-        return $this->render('/tablic2/Tab',[
-            'lol' => $model
-        ]);
+    public function actionHome()
+    {
+        if (!Yii::$app->user->isGuest) {
+            $userid = $_SESSION['__id'];
+            $model = Yifraem::find()->where('userid=:userid', [':userid' => $userid])->all();
+            return $this->render('/tablic2/Tab', [
+                'lol' => $model
+            ]);
+        } else
+
+            return $this->redirect('/aut/index');
     }
     public function actionUpdate($id)
     {
 
         $model= $this->FindModel($id);
 
-        if ($model->load(Yii::$app->request->post())&& $model->save()){
-                return $this->redirect('home');
+       if ($model->load(Yii::$app->request->post())&& $model->save()){
+               return $this->redirect('home');
             }
         return $this->render('Create', [
             'model' => $model
