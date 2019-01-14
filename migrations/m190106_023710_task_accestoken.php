@@ -15,9 +15,28 @@ class m190106_023710_task_accestoken extends Migration
         $this->addColumn(
             'users',
             'acess_token',
-            $this->string(255)
+            $this->string(255)->unique()
         );
-
+       $this->addColumn(
+            'users',
+            'status',
+            $this->smallInteger()->defaultValue(10)
+        );
+       $this->addColumn(
+           'users',
+           'created_at',
+           $this->integer()->notNull()
+       );
+        $this->addColumn(
+            'users',
+            'updated_at',
+            $this->integer()->notNull()
+        );
+        $this->addColumn(
+            'users',
+            'email',
+            $this->string(255)->unique()
+        );
     }
 
     /**
@@ -25,11 +44,32 @@ class m190106_023710_task_accestoken extends Migration
      */
     public function safeDown()
     {
-           $this->dropColumn(
+          $this->dropColumn(
                'users',
                'acess_token',
-               $this->string(255)
+               $this->string(255)->unique()
            );
+        $this->dropColumn(
+            'users',
+            'status',
+            $this->smallInteger()->defaultValue(10)
+        );
+        $this->dropColumn(
+            'users',
+            'created_at',
+            $this->integer()->notNull()
+        );
+        $this->dropColumn(
+            'users',
+            'updated_at',
+            $this->integer()->notNull()
+        );
+        $this->dropColumn(
+            'users',
+            'email',
+            $this->string(255)->unique()->notNull()
+        );
+
 
     }
 

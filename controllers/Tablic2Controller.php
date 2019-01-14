@@ -16,7 +16,8 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
-
+use app\models\PasswordResetRequestForm;
+use app\models\ResetPasswordForm;
 
 class Tablic2Controller extends AutController
 {
@@ -87,4 +88,5 @@ class Tablic2Controller extends AutController
         return $this->redirect('home');
 
     }
+
 }

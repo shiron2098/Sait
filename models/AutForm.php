@@ -10,6 +10,7 @@ class AutForm extends Model
     public $login;
     public $password_hash;
     public $auth_key;
+    public $email;
 
     public function rules()
     {
@@ -22,6 +23,12 @@ class AutForm extends Model
                 'message' => 'Такой login уже занят'
             ],
             ['password_hash','integer', 'min' => 5,],
+            ['email','email'],
+            ['email','unique',
+                'targetClass' => '\app\models\Users',
+                'targetAttribute' => 'email',
+                'message' => 'Такой email уже занят'
+            ],
         ];
     }
 }
