@@ -5,7 +5,7 @@ namespace app\controllers;
 use app\controllers\AutController;
 use app\models\Auti;
 use app\models\AutreForm;
-use app\models\NewForm1;
+use app\models\CreateTableListForm;
 use app\models\Users;
 use app\models\Yifraem;
 use Psr\Log\InvalidArgumentException;
@@ -24,7 +24,7 @@ class Tablic2Controller extends AutController
     public function actionIndex()
     {
         $userid=$_SESSION['__id'];
-        $model= new NewForm1();
+        $model= new CreateTableListForm();
         if($model->load(Yii::$app->request->post())) {
             if($model->validate()){
                 $newtask= new Yifraem();

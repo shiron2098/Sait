@@ -5,7 +5,7 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 
-class AutForm extends Model
+class CreateForm extends Model
 {
     public $login;
     public $password_hash;

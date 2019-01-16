@@ -2,7 +2,7 @@
 namespace app\controllers;
 
 use app\models\Auti;
-use app\models\NewForm1;
+use app\models\CreateTableListForm;
 use app\models\Yi;
 use app\models\Yifraem;
 use Yii;

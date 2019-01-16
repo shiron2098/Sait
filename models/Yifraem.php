@@ -14,7 +14,6 @@ use Yii;
  * @property string $email
  * @property string $password
  * @property int $userid
- *
  * @property Users $user
  */
 class Yifraem extends \yii\db\ActiveRecord

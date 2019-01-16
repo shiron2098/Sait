@@ -5,7 +5,7 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 
-class NewForm1 extends Model
+class CreateTableListForm extends Model
 {
     public $name;
     public $email;

@@ -1,10 +1,10 @@
 <?php
 namespace app\controllers;
 
-use app\models\AutForm;
+use app\models\CreateForm;
 use app\models\AutreForm;
 use app\models\CreateForm;
-use app\models\NewForm1;
+use app\models\CreateTableListForm;
 use app\models\Users;
 use app\models\Yi;
 use app\models\Yifraem;
@@ -35,7 +35,7 @@ class AutController extends Controller
 
     public function actionCreateNewUser()
     {
-        $model = new AutForm();
+        $model = new CreateForm();
         $newlogin = new Users();
         if ($model->load(Yii::$app->request->post())) {
             $newlogin->setPassword($model['password']);
