@@ -2,6 +2,7 @@
 namespace app\controllers;
 
 use app\models\AutForm;
+use app\models\AutForm2;
 use app\models\AutreForm;
 use app\models\ContactForm;
 use app\models\CreateForm;
@@ -42,11 +43,12 @@ class AutController extends Controller
     {
         $model = new AutForm();
         $newlogin = new Users();
-        if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(Yii::$app->request->post())){
             $newlogin->setPassword($model->password_hash);
             $newlogin->login = $model->login;
             $newlogin->auth_key = Yii::$app->security->generateRandomString(32);
             $newlogin->email =$model->email;
+            $newlogin->time=$model->time;
             if ($model->validate()) {
                 if ($newlogin->save()) {
                     return $this->redirect('/aut/index');
@@ -56,7 +58,7 @@ class AutController extends Controller
             }
         }
         return $this->render('/aut/Soxdat_new_user', [
-            'model' => $model
+            'model' => $model,
         ]);
     }
 

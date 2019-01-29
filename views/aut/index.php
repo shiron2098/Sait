@@ -1,5 +1,5 @@
 <?php
-
+use app\Components\FirstWidget;
 /* @var $this yii\web\View */
 
 $this->title = 'My Yii Application';

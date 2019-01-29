@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\controllers\AutController;
 use app\models\Auti;
 use app\models\AutreForm;
+use app\models\Checkbox;
 use app\models\NewForm1;
 use app\models\Users;
 use app\models\Yifraem;
@@ -33,6 +34,9 @@ class Tablic2Controller extends AutController
                 $newtask->setAttributes($model->attributes);
                 $newtask->userid = $userid;
                 if (!$newtask->save()) {
+                    echo '<pre>';
+                    print_r($newtask);
+                    exit();
                     return $this->render('Create', [
                         'model' => $model
                     ]);
@@ -42,7 +46,7 @@ class Tablic2Controller extends AutController
                     $task = Users::find()->
                     where('id=:id', [':id' => $userid])->one()->getYifraems()->all();
                     return $this->render('Tab', [
-                        'lol' => $task
+                        'lol' => $task,
                     ]);
                 }
             }
@@ -58,7 +62,7 @@ class Tablic2Controller extends AutController
             $userid = $_SESSION['__id'];
             $model = Yifraem::find()->where('userid=:userid', [':userid' => $userid])->all();
             return $this->render('/tablic2/Tab', [
-                'lol' => $model
+                'lol' => $model,
             ]);
         } else
 
@@ -88,5 +92,14 @@ class Tablic2Controller extends AutController
         return $this->redirect('home');
 
     }
-
+    public function actionDeleteMulti ()
+    {
+        if (isset($_GET['id'])) {
+            foreach ($_GET['id'] as $id) {
+                $model=$this->FindModel($id);
+                $model->delete();
+            }
+            return $this->redirect('/tablic2/home');
+        }
+    }
 }

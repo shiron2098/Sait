@@ -30,15 +30,11 @@ class Yifraem extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-
     public function rules()
     {
         return [
-            ['email','email'],
-            [['email','name'],'unique'],
-            ['name','string'],
             [['time'], 'safe'],
-            [['userid'], 'integer'],
+            [['userid',], 'integer'],
             [['date', 'email'], 'string', 'max' => 32],
             [['name', 'password'], 'string', 'max' => 60],
             [['userid'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['userid' => 'id']],

@@ -9,8 +9,8 @@ class AutForm extends Model
 {
     public $login;
     public $password_hash;
-    public $auth_key;
     public $email;
+    public $time;
 
     public function rules()
     {
@@ -29,6 +29,8 @@ class AutForm extends Model
                 'targetAttribute' => 'email',
                 'message' => 'Такой email уже занят'
             ],
+            ['time','required'],
+
         ];
     }
 }

@@ -18,7 +18,7 @@ use yii\behaviors\TimestampBehavior;
  * @property int $created_at
  * @property int $updated_at
  * @property string $email
- *
+ * @property string $time
  * @property Yifraem[] $yifraems
  */
 class Users extends \yii\db\ActiveRecord implements IdentityInterface
@@ -44,6 +44,7 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
             [['password_hash', 'auth_key'], 'string', 'max' => 60],
             [['acess_token'], 'unique'],
             [['email'], 'unique'],
+            ['time','unique'],
         ];
     }
 
@@ -62,6 +63,7 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
             'email' => 'Email',
+            'time' => 'Time',
         ];
     }
 
