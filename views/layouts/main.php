@@ -12,7 +12,10 @@ use app\assets\AppAsset;
 
 AppAsset::register($this);
 ?>
-<?php $this->beginPage() ?>
+<?php $this->beginPage()?>
+<?$id = Yii::$app->user->identity->id;?>
+
+
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
 <head>
@@ -41,6 +44,7 @@ AppAsset::register($this);
             ['label' => 'Home', 'url' => ['/tablic2/home']],
             ['label' => 'About', 'url' => ['/aut/about']],
             ['label' => 'Contact', 'url' => ['/aut/contact']],
+            ['label' => 'Settings', 'url' => ['/settings-users/index?Userid='. $id]],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/aut/login']]
             ) : (

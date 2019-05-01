@@ -3,6 +3,7 @@ namespace app\controllers;
 
 
 use app\controllers\AutController;
+use app\controllers\Secure\SecureController;
 use app\models\Auti;
 use app\models\AutreForm;
 use app\models\NewForm1;
@@ -19,7 +20,7 @@ use app\models\ContactForm;
 use app\models\PasswordResetRequestForm;
 use app\models\ResetPasswordForm;
 
-class Tablic2Controller extends AutController
+class Tablic2Controller extends SecureController
 {
     public function actionIndex()
     {

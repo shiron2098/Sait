@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 
+
 class AutForm extends Model
 {
     public $login;
@@ -29,6 +30,14 @@ class AutForm extends Model
                 'targetAttribute' => 'email',
                 'message' => 'Такой email уже занят'
             ],
+        ];
+    }
+    public function attributeLabels()
+    {
+        return [
+            'rememberMe' => 'Запомнить меня',
+            'password_hash' => 'Пароль',
+            'login' => 'Имя',
         ];
     }
 }

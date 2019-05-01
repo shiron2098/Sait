@@ -15,8 +15,8 @@ use yii\widgets\ActiveForm;
 <?= $form->field($model, 'email')->label('Эмейл') ?>
 
     <div class="form-group">
-        <?= Html::submitButton('login', ['class' => 'btn btn-primary']) ?>
-        <a href="/aut/index" class="btn btn-danger">back</a>
+        <?= Html::submitButton('Создать', ['class' => 'btn btn-primary']) ?>
+        <a href="/aut/index" class="btn btn-danger">Назад</a>
     </div>
 
 <?php ActiveForm::end(); ?>
