@@ -7,8 +7,9 @@
 
 namespace app\commands;
 
-use yii\console\Controller;
+use yii\web\Controller;
 use yii\console\ExitCode;
+use Yii;
 
 /**
  * This command echoes the first argument that you have entered.
@@ -18,17 +19,22 @@ use yii\console\ExitCode;
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
  */
-class HelloController extends Controller
+interface TimezoneInterface
 {
-    /**
-     * This command echoes what you have entered as the message.
-     * @param string $message the message to be echoed.
-     * @return int Exit code
-     */
-    public function actionIndex($message = 'hello world')
-    {
-        echo $message . "\n";
+    public function TimeZoneUserRegisterAndSettings();
 
-        return ExitCode::OK;
-    }
+    public function IpAdresUserTimeZone();
+
 }
+/*public function AutTimeZoneRegister()
+{
+    $data=$this->IpAdresUser();
+    $time= $data['region']['timezone'];
+    return date_default_timezone_set($time);
+}
+
+public function IpAdresUser()
+{
+    $ip = Yii::$app->request->userIP;
+    return $ip;
+}*/

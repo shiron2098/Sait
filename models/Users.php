@@ -56,7 +56,7 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
         return [
             'id' => 'ID',
             'login' => 'Login',
-            'password_hash' => 'Password Hash',
+            'password_hash' => 'Password',
             'auth_key' => 'Auth Key',
             'acess_token' => 'Acess Token',
             'status' => 'Status',

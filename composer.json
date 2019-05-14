@@ -16,16 +16,24 @@
     "require": {
         "php": ">=5.4.0",
         "yiisoft/yii2": "~2.0.14",
+        "yiisoft/yii2-jui": "~2.0.0",
         "yiisoft/yii2-bootstrap": "~2.0.0",
         "yiisoft/yii2-swiftmailer": "~2.0.0",
-        "devanych/yii2-cart": "*",
-        "yiisoft/yii2-jui": "~2.0.0"
+        "kartik-v/yii2-widget-datetimepicker": "*",
+        "kartik-v/yii2-widget-datepicker": "@dev",
+        "yii-dream-team/yii2-timezone-picker": "^0.1.0",
+        "kartik-v/yii2-datecontrol": "dev-master",
+        "borales/yii2-phone-input": "*",
+        "lowbase/yii2-sms": "*",
+        "kartik-v/yii2-widgets": "*",
+        "yii2mod/yii2-timezone": "*",
+        "jisoft/yii2-sypexgeo": "@dev",
+        "phpnt/yii2-sypexgeo": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
         "yiisoft/yii2-gii": "~2.0.0",
         "yiisoft/yii2-faker": "~2.0.0",
-
 
         "codeception/base": "^2.2.3",
         "codeception/verify": "~0.3.1",

@@ -13,12 +13,13 @@ class m190102_205438_users extends Migration
      */
     public function safeUp()
     {
-        $this->createTable(self::USERS_TABLE, [
+        $this->createTable(self::USERS_TABLE,[
             'id' => $this->primaryKey(),
             'login' => $this->string(255),
             'password_hash' => $this->string(60),
             'auth_key' => $this->string(60),
-    ]);
+
+    ],'ENGINE InnoDB');
        $this->insert(self::USERS_TABLE, [
            'login' => 'admin',
            'password_hash' => Yii::$app->security->generatePasswordHash('12345'),

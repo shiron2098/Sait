@@ -21,7 +21,7 @@ class m190105_225444_task extends Migration
             'email' => $this->string(32),
             'password' => $this->string(60),
             'userid' => $this->integer(),
-        ]);
+        ],'ENGINE InnoDB');
         $this->addForeignKey(
             'Yifraem_users_fk',
             'Yifraem',

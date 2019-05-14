@@ -1,16 +1,19 @@
 <?php
 namespace app\controllers;
 
-
 use app\controllers\AutController;
+use app\controllers\Secure\SecureController;
 use app\models\Auti;
 use app\models\AutreForm;
 use app\models\Checkbox;
+use app\models\NameAndContactSettings;
 use app\models\NewForm1;
 use app\models\Users;
 use app\models\Yifraem;
+use kartik\datecontrol\DateControl;
 use Psr\Log\InvalidArgumentException;
 use Yii;
+use yii\bootstrap\ActiveForm;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
@@ -19,34 +22,37 @@ use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\PasswordResetRequestForm;
 use app\models\ResetPasswordForm;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 
-class Tablic2Controller extends AutController
+class Tablic2Controller extends SecureController
 {
+    function __construct($id,$module)
+    {
+        parent::__construct($id, $module);
+        $this->TimeZoneUserRegisterAndSettings();
+    }
     public function actionIndex()
     {
-        $userid=$_SESSION['__id'];
+        $userid= Yii::$app->user->identity->getId();
         $model= new NewForm1();
         if($model->load(Yii::$app->request->post())) {
             if($model->validate()){
                 $newtask= new Yifraem();
-                $newtask->time = date('H:i:s');
-                $newtask->date = date('d.m.Y');
                 $newtask->setAttributes($model->attributes);
+                $newtask->time = date('H:i:s',time());
+                $newtask->date = date('d:m:Y',time());
                 $newtask->userid = $userid;
                 if (!$newtask->save()) {
-                    echo '<pre>';
-                    print_r($newtask);
-                    exit();
                     return $this->render('Create', [
                         'model' => $model
                     ]);
-
                 }
                 else{
                     $task = Users::find()->
                     where('id=:id', [':id' => $userid])->one()->getYifraems()->all();
                     return $this->render('Tab', [
-                        'lol' => $task,
+                        'lol' => $task
                     ]);
                 }
             }
@@ -58,13 +64,16 @@ class Tablic2Controller extends AutController
     }
     public function actionHome()
     {
+
+        Yii::$app->geoData->removeData();
         if (!Yii::$app->user->isGuest) {
             $userid = $_SESSION['__id'];
             $model = Yifraem::find()->where('userid=:userid', [':userid' => $userid])->all();
-            return $this->render('/tablic2/Tab', [
-                'lol' => $model,
-            ]);
-        } else
+                    return $this->render('/tablic2/Tab', [
+                        'lol' => $model
+                    ]);
+        }
+        else
 
             return $this->redirect('/aut/index');
     }

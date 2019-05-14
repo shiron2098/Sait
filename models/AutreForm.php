@@ -39,6 +39,14 @@ class AutreForm extends Model
 
         }
     }
+    public function attributeLabels()
+    {
+        return [
+            'rememberMe' => 'Запомнить меня',
+            'password_hash' => 'Пароль',
+            'login' => 'Имя',
+        ];
+    }
    public function login()
     {
         if ($this->validate()) {

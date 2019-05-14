@@ -3,6 +3,10 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
+use yii\behaviors\SluggableBehavior;
+use yii\behaviors\BlameableBehavior;
 
 /**
  * This is the model class for table "Yifraem".
@@ -56,6 +60,18 @@ class Yifraem extends \yii\db\ActiveRecord
             'userid' => 'Userid',
         ];
     }
+   /* public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => 'yii\behaviors\TimestampBehavior',
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['time'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['time'],
+                ],
+            ],
+        ];
+    }*/
 
     /**
      * @return \yii\db\ActiveQuery

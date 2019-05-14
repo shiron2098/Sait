@@ -1,6 +1,8 @@
 <?php
 namespace app\controllers;
-
+use app\commands\HelloController;
+use app\commands\TimezoneInterface;
+use app\controllers\Secure\SecureController;
 use app\models\AutForm;
 use app\models\AutForm2;
 use app\models\AutreForm;
@@ -19,9 +21,13 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 
 
-class AutController extends Controller
+class AutController extends Controller implements TimezoneInterface
 {
-
+    function __construct($id,$module)
+    {
+        parent::__construct($id, $module);
+        $this->TimeZoneUserRegisterAndSettings();
+    }
     public function actionIndex()
     {
         if (Yii::$app->user->isGuest) {
@@ -29,12 +35,12 @@ class AutController extends Controller
             if ($model->load(Yii::$app->request->post()) && $model->login()) {
                 return $this->redirect('/tablic2/home');
             }
-
             return $this->render('index', [
                 'model' => $model
             ]);
-
-        } else {
+        }
+        else
+            {
             $this->redirect('/tablic2/home');
         }
     }
@@ -44,11 +50,12 @@ class AutController extends Controller
         $model = new AutForm();
         $newlogin = new Users();
         if ($model->load(Yii::$app->request->post())){
+            $model->time = date('H:i:s',time());
             $newlogin->setPassword($model->password_hash);
             $newlogin->login = $model->login;
             $newlogin->auth_key = Yii::$app->security->generateRandomString(32);
             $newlogin->email =$model->email;
-            $newlogin->time=$model->time;
+            $newlogin->time = $model->time;
             if ($model->validate()) {
                 if ($newlogin->save()) {
                     return $this->redirect('/aut/index');
@@ -91,10 +98,10 @@ class AutController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail()) {
-                Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
+                Yii::$app->session->setFlash('success', 'На вашь эмейл отправленно письмо с инструкцией');
                 return $this->goHome();
             } else {
-                Yii::$app->session->setFlash('error', 'Sorry, we are unable to reset password for email provided.');
+                Yii::$app->session->setFlash('error', 'Извините но у нас нет пользователя с таким эмейлом');
             }
         }
 
@@ -117,7 +124,6 @@ class AutController extends Controller
         } catch (InvalidParamException $e) {
             throw new BadRequestHttpException($e->getMessage());
         }
-
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
             Yii::$app->session->setFlash('success', 'Новый пароль сохранен');
             return $this->goHome();
@@ -126,5 +132,19 @@ class AutController extends Controller
         return $this->render('resetPasswordForm', [
             'model' => $model,
         ]);
+    }
+
+    public function TimeZoneUserRegisterAndSettings()
+    {
+        $ip =$this->IpAdresUserTimeZone();
+        $data = Yii::$app->geoData->getDataIp('178.121.195.140');
+        $time= $data['region']['timezone'];
+        return date_default_timezone_set($time);
+    }
+
+    public function IpAdresUserTimeZone()
+    {
+        $ip = Yii::$app->request->userIP;
+        return $ip;
     }
 }
