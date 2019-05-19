@@ -3,19 +3,19 @@
 namespace app\controllers\Secure;
 
 
-use app\commands\TimezoneInterface;
+use app\commands\TimeZoneController;
 use app\models\NameAndContactSettings;
 use yii\web\Controller;
 use yii;
 
-class SecureController extends Controller implements TimezoneInterface
+class SecureController extends TimeZoneController
 {
     function __construct($id,$module)
     {
         parent::__construct($id, $module);
         if(Yii::$app->user->IsGuest)
         {
-               $this->redirect('aut/login');
+               $this->redirect('aut/index');
         }
     }
 
@@ -27,7 +27,7 @@ class SecureController extends Controller implements TimezoneInterface
         Yii::$app->user->identity;
     }
     /** Нахождения пользователя по ид и его таймзоны из бд */
-    public function TimeZoneUserRegisterAndSettings()
+    public function FindUserAndTimeZone()
     {
         if($userid = YII::$app->user->identity->getId())
         {
@@ -38,6 +38,11 @@ class SecureController extends Controller implements TimezoneInterface
                 return date_default_timezone_set($time);
             }
         }
+        else
+        {
+            $text=("Не найден пользовательский ид");
+            $this->ExceptionHandler($text);
+        }
     }
     /** Автоматическое выставление таймзоне в settings пользователем */
     public function actionCheckboxTrue($model)
@@ -45,22 +50,15 @@ class SecureController extends Controller implements TimezoneInterface
         if ($model->CityCheckboxAutoTimeZone == 1)
         {
             $CheckboxIp = $this->IpAdresUserTimeZone();
-            $model->CityTime = $CheckboxIp['country']['timezone'];
-            $model->City = $CheckboxIp['city']['name_ru'] . ',' . $CheckboxIp['country']['name_ru'];
+            $data = Yii::$app->geoData->getDataIp('178.121.195.140');
+            $model->CityTime = $data['country']['timezone'];
+            $model->City = $data['city']['name_ru'] . ',' . $data['country']['name_ru'];
             return $model;
         }
         else
         {
             return false;
         }
-    }
-    /** Проверка тайм зоны через модел */
-    /** нахождения ип адреса юзера */
-    public function IpAdresUserTimeZone()
-    {
-        $ip = Yii::$app->request->userIP;
-        $data = Yii::$app->geoData->getDataIp('178.121.195.140');
-        return $data;
     }
 
 }

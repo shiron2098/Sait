@@ -2,14 +2,16 @@
 
 /* @var $this yii\web\View */
 
-$this->title = 'My Yii Application';
 ?>
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\jui\DatePicker;
 use kartik\datecontrol\DateControl;
+$this->title = 'Регистрация нового пользователя';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
+
 <?php $form = ActiveForm::begin(); ?>
 <?= $form->field($model, 'login')->label('Имя') ?>
 <?= $form->field($model, 'password_hash')->passwordInput()->label('Пароль') ?>

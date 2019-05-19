@@ -57,4 +57,8 @@ $(document).ready(function () {
                 $(".Checkbox_div_Timezone").fadeIn();
         };*/
     });
+    $(document).on('change','.dropzone',function(){
+       $('.dropzone').upload({
+       });
+    });
 })

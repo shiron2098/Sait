@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "nameandcontactsettings".
@@ -40,7 +41,6 @@ class NameAndContactSettings extends \yii\db\ActiveRecord
     {
         return [
             [['DateBrithday','Floor'],'required'],
-            [['Name', 'Famiglia', 'Nickname'],'unique'],
             [['CityTime'], 'safe'],
             [['Telephone', 'Userid','CityCheckboxAutoTimeZone'], 'integer'],
             [['Name', 'Famiglia', 'Nickname', 'DateBrithday'], 'string', 'max' => 30],
@@ -81,8 +81,8 @@ class NameAndContactSettings extends \yii\db\ActiveRecord
     {
         return [
             'Id' => 'ID',
-            'Name' => 'Name',
-            'Famiglia' => 'Famiglia',
+            'Name' => 'Имя',
+            'Famiglia' => 'Фамилия',
             'Nickname' => 'Nickname',
             'DateBrithday' => 'Date Brithday',
             'Floor' => 'Floor',
@@ -103,4 +103,5 @@ class NameAndContactSettings extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Users::className(), ['id' => 'Userid']);
     }
+
 }

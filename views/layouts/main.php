@@ -40,24 +40,33 @@ AppAsset::register($this);
     ]);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-            ['label' => 'Home', 'url' => ['/tablic2/home']],
-            ['label' => 'About', 'url' => ['/aut/about']],
-            ['label' => 'Contact', 'url' => ['/aut/contact']],
-            ['label' => 'Settings', 'url' => ['/settings-users/index']],
-            Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/aut/login']]
-            ) : (
-                '<li>'
-                . Html::beginForm(['/aut/logout'], 'post')
-                . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->login . ')',
-                    ['class' => 'btn btn-link logout']
-                )
-                . Html::endForm()
-                . '</li>'
-            )
-        ],
+        'items' =>  [
+            Yii::$app->user->isGuest ?
+
+                ['label' => 'User Login', 'items' => [
+
+                    ['label' => 'Create an Account', 'url' => '/aut/create-new-user'],
+                    ['label' => 'Sign In', 'url' => '/aut/index'],
+
+                ]] :
+                /*['label' => 'Home', 'url' => '/tablic2/home'],*/
+                ['label' => 'Welcome ('. Yii::$app->user->identity->login . ')','items' => [
+
+                    '<li role="presentation" class="divider"></li>',
+
+                    ['label' => 'Account Settings'],
+                    ['label' => 'Home', 'url' => ['/tablic2/home']],
+                    ['label' => 'About', 'url' => ['/aut/about']],
+                    ['label' => 'Contact', 'url' => ['/aut/contact']],
+                    ['label' => 'Settings', 'url' => ['/settings-users/index']],
+
+                    '<li role="presentation" class="divider"></li>',
+
+                    ['label' => 'Logout', 'url' => '/aut/logout'],
+
+                ]]
+
+        ]
     ]);
     NavBar::end();
     ?>
@@ -83,3 +92,18 @@ AppAsset::register($this);
 </body>
 </html>
 <?php $this->endPage() ?>
+
+
+
+<!--Yii::$app->user->isGuest ? (
+['label' => 'Login', 'url' => ['/aut/index']]
+) : (
+'<li>'
+    . Html::beginForm(['/aut/logout'], 'post')
+    . Html::submitButton(
+    'Logout (' . Yii::$app->user->identity->login . ')',
+    ['class' => 'btn btn-link logout']
+    )
+    . Html::endForm()
+    . '</li>'
+)-->

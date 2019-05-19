@@ -30,25 +30,29 @@ class Tablic2Controller extends SecureController
     function __construct($id,$module)
     {
         parent::__construct($id, $module);
-        $this->TimeZoneUserRegisterAndSettings();
+        $this->FindUserAndTimeZone();
     }
     public function actionIndex()
     {
         $userid= Yii::$app->user->identity->getId();
         $model= new NewForm1();
-        if($model->load(Yii::$app->request->post())) {
-            if($model->validate()){
+        if($model->load(Yii::$app->request->post()))
+        {
+            if($model->validate())
+            {
                 $newtask= new Yifraem();
                 $newtask->setAttributes($model->attributes);
                 $newtask->time = date('H:i:s',time());
                 $newtask->date = date('d:m:Y',time());
                 $newtask->userid = $userid;
-                if (!$newtask->save()) {
+                if (!$newtask->save())
+                {
                     return $this->render('Create', [
                         'model' => $model
                     ]);
                 }
-                else{
+                else
+                    {
                     $task = Users::find()->
                     where('id=:id', [':id' => $userid])->one()->getYifraems()->all();
                     return $this->render('Tab', [
@@ -66,7 +70,8 @@ class Tablic2Controller extends SecureController
     {
 
         Yii::$app->geoData->removeData();
-        if (!Yii::$app->user->isGuest) {
+        if (!Yii::$app->user->isGuest)
+        {
             $userid = $_SESSION['__id'];
             $model = Yifraem::find()->where('userid=:userid', [':userid' => $userid])->all();
                     return $this->render('/tablic2/Tab', [
@@ -82,7 +87,8 @@ class Tablic2Controller extends SecureController
 
         $model= $this->FindModel($id);
 
-       if ($model->load(Yii::$app->request->post())&& $model->save()){
+       if ($model->load(Yii::$app->request->post())&& $model->save())
+       {
                return $this->redirect('home');
             }
         return $this->render('Create', [
@@ -91,11 +97,13 @@ class Tablic2Controller extends SecureController
     }
     public function FindModel($id)
     {
-        if (($model = Yifraem::findOne($id)) !== null) {
+        if (($model = Yifraem::findOne($id)) !== null)
+        {
             return $model;
         }
     }
-    public function actionDelete ($id){
+    public function actionDelete ($id)
+    {
         $model=$this->FindModel($id);
         $model->delete();
         return $this->redirect('home');
@@ -103,8 +111,10 @@ class Tablic2Controller extends SecureController
     }
     public function actionDeleteMulti ()
     {
-        if (isset($_GET['id'])) {
-            foreach ($_GET['id'] as $id) {
+        if (isset($_GET['id']))
+        {
+            foreach ($_GET['id'] as $id)
+            {
                 $model=$this->FindModel($id);
                 $model->delete();
             }

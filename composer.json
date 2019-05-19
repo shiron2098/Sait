@@ -28,7 +28,10 @@
         "kartik-v/yii2-widgets": "*",
         "yii2mod/yii2-timezone": "*",
         "jisoft/yii2-sypexgeo": "@dev",
-        "phpnt/yii2-sypexgeo": "dev-master"
+        "phpnt/yii2-sypexgeo": "dev-master",
+        "2amigos/yii2-file-upload-widget": "~1.0",
+        "perminder-klair/yii2-dropzone": "dev-master",
+        "limion/yii2-jquery-fileupload-widget": "~1.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

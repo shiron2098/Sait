@@ -1,7 +1,7 @@
 <?php
 namespace app\controllers;
 use app\commands\HelloController;
-use app\commands\TimezoneInterface;
+use app\commands\TimeZoneController;
 use app\controllers\Secure\SecureController;
 use app\models\AutForm;
 use app\models\AutForm2;
@@ -15,13 +15,14 @@ use app\models\Users;
 use app\models\Yi;
 use app\models\Yifraem;
 use Yii;
+use yii\db\Exception;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 
 
-class AutController extends Controller implements TimezoneInterface
+class AutController extends TimeZoneController
 {
     function __construct($id,$module)
     {
@@ -30,9 +31,11 @@ class AutController extends Controller implements TimezoneInterface
     }
     public function actionIndex()
     {
-        if (Yii::$app->user->isGuest) {
+        if (Yii::$app->user->isGuest)
+        {
             $model = new AutreForm();
-            if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            if ($model->load(Yii::$app->request->post()) && $model->login())
+            {
                 return $this->redirect('/tablic2/home');
             }
             return $this->render('index', [
@@ -49,27 +52,39 @@ class AutController extends Controller implements TimezoneInterface
     {
         $model = new AutForm();
         $newlogin = new Users();
-        if ($model->load(Yii::$app->request->post())){
-            $model->time = date('H:i:s',time());
+        if ($model->load(Yii::$app->request->post()))
+        {
+           $model->time = date('H:i:s',time());
             $newlogin->setPassword($model->password_hash);
             $newlogin->login = $model->login;
             $newlogin->auth_key = Yii::$app->security->generateRandomString(32);
             $newlogin->email =$model->email;
             $newlogin->time = $model->time;
-            if ($model->validate()) {
-                if ($newlogin->save()) {
+            if ($model->validate())
+            {
+                if ($newlogin->save())
+                {
+                    Yii::$app->session->setFlash('success','Поздравляем вы успешно зарегестрировались');
                     return $this->redirect('/aut/index');
-                } else {
-                    print_r($newlogin->errors);
                 }
+                else
+                    {
+                        $text = ('Ошибка данных записи в базу проверьте правильность вода данных');
+                        $this->ExceptionHandler($text);
+                }
+            }
+            else
+            {
+                $text = ('Ошибка данных записи в базу проверьте правильность вода данных');
+                $this->ExceptionHandler($text);
+
             }
         }
         return $this->render('/aut/Soxdat_new_user', [
             'model' => $model,
         ]);
     }
-
-    public function actionLogin()
+/*    public function actionLogin()
     {
         $model = new AutreForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
@@ -78,8 +93,10 @@ class AutController extends Controller implements TimezoneInterface
         return $this->render('index', [
             'model' => $model
         ]);
-    }
-
+    }*/
+    /**
+     * Logout for user.
+     */
     public function actionLogout()
     {
         Yii::$app->user->logout();
@@ -96,11 +113,15 @@ class AutController extends Controller implements TimezoneInterface
     {
         $model = new PasswordResetRequestForm();
 
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail()) {
+        if ($model->load(Yii::$app->request->post()) && $model->validate())
+        {
+            if ($model->sendEmail())
+            {
                 Yii::$app->session->setFlash('success', 'На вашь эмейл отправленно письмо с инструкцией');
                 return $this->goHome();
-            } else {
+            }
+            else
+                {
                 Yii::$app->session->setFlash('error', 'Извините но у нас нет пользователя с таким эмейлом');
             }
         }
@@ -119,12 +140,15 @@ class AutController extends Controller implements TimezoneInterface
      */
     public function actionResetPassword($token)
     {
-        try {
+        try
+        {
             $model = new ResetPasswordForm($token);
-        } catch (InvalidParamException $e) {
+        } catch (InvalidParamException $e)
+        {
             throw new BadRequestHttpException($e->getMessage());
         }
-        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
+        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword())
+        {
             Yii::$app->session->setFlash('success', 'Новый пароль сохранен');
             return $this->goHome();
         }
@@ -132,19 +156,5 @@ class AutController extends Controller implements TimezoneInterface
         return $this->render('resetPasswordForm', [
             'model' => $model,
         ]);
-    }
-
-    public function TimeZoneUserRegisterAndSettings()
-    {
-        $ip =$this->IpAdresUserTimeZone();
-        $data = Yii::$app->geoData->getDataIp('178.121.195.140');
-        $time= $data['region']['timezone'];
-        return date_default_timezone_set($time);
-    }
-
-    public function IpAdresUserTimeZone()
-    {
-        $ip = Yii::$app->request->userIP;
-        return $ip;
     }
 }
